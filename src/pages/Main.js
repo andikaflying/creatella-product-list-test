@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductPage from '../components/ProductPage';
 
 const Main = () => {
     return(
@@ -11,8 +12,7 @@ const Main = () => {
                 <p>But first, a word from our sponsors:</p> <script>document.write('<img class="ad" src="/ads/?r=' + Math.floor(Math.random()*1000) + '"/>');</script>
             </header>
             <section class="products">
-                
-            
+                <ProductPage />
             </section>
         </>
     )
