@@ -1,4 +1,5 @@
 import React from 'react';
+import { getDisplayedDate } from "../utilities/DateUtils";
 
 const ProductGrid = ({ products }) => {
     const productGrid = products.map((product, index) => (
@@ -7,16 +8,13 @@ const ProductGrid = ({ products }) => {
           <div className="row">
               <div className="col-md-5 col-sm-12 col-xs-12">
                 <div className="product-image">
-                  <span className="img-responsive"> {product.face} </span>
+                  <span className="img-responsive" style={{fontSize: product.size + 'px', textAlign: 'center'}}> {product.face} </span>
                 </div>
               </div>
               <div className="col-md-7 col-sm-12 col-xs-12">
                 <div className="product-deatil">
                   <h5 className="name">
                     <a href="#"> {product.id} </a>
-                    <a href="#">
-                      <span>{"size : " + product.size}</span>
-                    </a>
                   </h5>
                   <p className="price-container">
                     <span>{'$' + product.price}</span>
@@ -33,7 +31,7 @@ const ProductGrid = ({ products }) => {
                     </div>
                     <div className="col-md-12">
                       <div className="rating">
-                        Date : {product.date}
+                        Date : {getDisplayedDate(product.date)}
                       </div>
                     </div>
                   </div>
