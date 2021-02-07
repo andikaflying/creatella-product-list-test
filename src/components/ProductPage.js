@@ -44,6 +44,7 @@ function ProductPage() {
     function fetchMoreProduct() {
         setTimeout(() => {
           console.log("fetch more product") 
+          setIsFetching(false);
           fetch("https://api.mocki.io/v1/a135f562")
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
@@ -56,8 +57,8 @@ function ProductPage() {
             .catch(error => {
                 dispatch({ type: DISPLAY_PRODUCT_OTHER_PAGE_FAILURE, error : ERROR_MESSAGE})
             }); 
-          setIsFetching(false);
-        }, 1000);
+          
+        }, 2000);
     }
 
     return(

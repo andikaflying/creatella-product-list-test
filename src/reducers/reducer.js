@@ -37,7 +37,7 @@ export const productReducer = (state, action) => {
           error: action.error
         };  
     case DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS:
-        state.data.push(action.payload)
+        state.data.push(...action.payload)
         return state;
     case DISPLAY_PRODUCT_OTHER_PAGE_FAILURE: 
         return {
