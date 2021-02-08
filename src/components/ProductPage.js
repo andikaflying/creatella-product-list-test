@@ -5,7 +5,7 @@ import { initialState, productReducer, DISPLAY_PRODUCT_SUCCESS, DISPLAY_PRODUCT_
          DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS, DISPLAY_PRODUCT_OTHER_PAGE_FAILURE } from "../reducers/reducer";
 import { useEffect, useState, useReducer } from "react";
 import useInfiniteScroll from '../utilities/useInfiniteScroll';
-import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD } from '../utilities/GeneralUtils';
+import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD, LIMIT } from '../utilities/GeneralUtils';
 
 
 function ProductPage() {
@@ -14,9 +14,10 @@ function ProductPage() {
     const [page, setPage] = useState(1)
 
     const sorting = (e) => {
-        // console.log("Sort type = " + e.target.value)
-        // fetch(ENDPOINT_SORT_PRODUCT + e.target.value)
-        fetch(ENDPOINT_SORT_PRODUCT)
+        const sortType = e.target.value;
+        const totalProduct = page * LIMIT;
+        
+        fetch(ENDPOINT_SORT_PRODUCT + sortType + "&_limit = " + totalProduct)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -31,8 +32,7 @@ function ProductPage() {
     }
 
     useEffect(() => {
-        // fetch(ENDPOINT_DISPLAY_PRODUCT + page)
-        fetch("http://localhost:3000/products")
+        fetch(ENDPOINT_DISPLAY_PRODUCT + page)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -50,8 +50,7 @@ function ProductPage() {
         setTimeout(() => {
           setPage(page + 1)
           setIsFetching(false);
-        //   fetch(ENDPOINT_DISPLAY_PRODUCT + page)
-          fetch(ENDPOINT_DISPLAY_PRODUCT)
+          fetch(ENDPOINT_DISPLAY_PRODUCT + page)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -78,7 +77,7 @@ function ProductPage() {
                 </select>
             </div>
             { (products != null) && <ProductGrid products={products.data} /> }
-            {isFetching && 'Fetching more list items...' }
+            {isFetching && 'Loading...' }
         </div>
     )
 };
