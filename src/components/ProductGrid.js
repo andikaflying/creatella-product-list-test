@@ -1,9 +1,11 @@
 import React from 'react';
 import { getDisplayedDate } from "../utilities/DateUtils";
+import { generateAd } from '../utilities/GeneralUtils';
 
 const ProductGrid = ({ products }) => {
     const productGrid = products.map((product, index) => (
-      <div className="col-xs-12 col-md-6">
+      <div>
+        <div className="col-xs-12 col-md-6">
           <div className="prod-info-main prod-wrap clearfix">
           <div className="row">
               <div className="col-md-5 col-sm-12 col-xs-12">
@@ -39,6 +41,12 @@ const ProductGrid = ({ products }) => {
               </div>
             </div>
           </div>
+        </div>
+        { ((index+1) % 20 == 0) &&
+          <div className="col-xs-12 col-md-12">
+            <img class="ad" src={generateAd()} />
+          </div>
+        }
       </div>
     ))
   
