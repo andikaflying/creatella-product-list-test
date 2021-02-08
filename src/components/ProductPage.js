@@ -5,19 +5,19 @@ import { initialState, productReducer, DISPLAY_PRODUCT_SUCCESS, DISPLAY_PRODUCT_
          DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS, DISPLAY_PRODUCT_OTHER_PAGE_FAILURE } from "../reducers/reducer";
 import { useEffect, useState, useReducer } from "react";
 import useInfiniteScroll from '../utilities/useInfiniteScroll';
-import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD, LIMIT } from '../utilities/GeneralUtils';
+import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD, 
+         LIMIT, TOTAL_ALL_PRODUCTS } from '../utilities/GeneralUtils';
 
 
 function ProductPage() {
     const [products, dispatch] = useReducer(productReducer, initialState);
-    const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreProduct);
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
+    const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreProduct, page * LIMIT);
 
     const sorting = (e) => {
         const sortType = e.target.value;
         const totalProduct = page * LIMIT;
-        
-        fetch(ENDPOINT_SORT_PRODUCT + sortType + "&_limit = " + totalProduct)
+        fetch(ENDPOINT_SORT_PRODUCT + sortType + "&_limit=" + totalProduct)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -47,23 +47,29 @@ function ProductPage() {
     }, []);
 
     function fetchMoreProduct() {
-        setTimeout(() => {
-          setPage(page + 1)
-          setIsFetching(false);
-          fetch(ENDPOINT_DISPLAY_PRODUCT + page)
-            .then(response => {
-                if (!response.ok) throw Error(response.statusText);
-                    return response.json();
-                }
-            )
-            .then(json => {
-                dispatch({ type: DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS, payload: json });
-            })
-            .catch(error => {
-                dispatch({ type: DISPLAY_PRODUCT_OTHER_PAGE_FAILURE, error : ERROR_MESSAGE})
-            }); 
-          
-        }, 2000);
+        console.log("Product length = " + products.data.length)
+        if (products.data.length < TOTAL_ALL_PRODUCTS) {
+            setTimeout(() => {
+                const nextPage = page + 1;
+                setPage(nextPage)
+                console.log("True or false : " + (products.data.length <= TOTAL_ALL_PRODUCTS));
+                console.log("Product size = " + products.data.length)
+                fetch(ENDPOINT_DISPLAY_PRODUCT + nextPage)
+                  .then(response => {
+                      if (!response.ok) throw Error(response.statusText);
+                          return response.json();
+                      }
+                  )
+                  .then(json => {
+                      dispatch({ type: DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS, payload: json });
+                      setIsFetching(false);
+                  })
+                  .catch(error => {
+                      dispatch({ type: DISPLAY_PRODUCT_OTHER_PAGE_FAILURE, error : ERROR_MESSAGE})
+                      setIsFetching(false);
+                  }); 
+            }, 2000);
+        }
     }
 
     return(
@@ -77,7 +83,8 @@ function ProductPage() {
                 </select>
             </div>
             { (products != null) && <ProductGrid products={products.data} /> }
-            {isFetching && 'Loading...' }
+            {(isFetching && (products.data.length < TOTAL_ALL_PRODUCTS)) && 'Loading...' }
+            { (products.data.length == TOTAL_ALL_PRODUCTS) && '~ end of catalogue ~' }
         </div>
     )
 };

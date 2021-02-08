@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDisplayedDate } from "../utilities/DateUtils";
-import { generateAd } from '../utilities/GeneralUtils';
+import { generateAd, LIMIT_PRODUCT_BEFORE_AD } from '../utilities/GeneralUtils';
 
 const ProductGrid = ({ products }) => {
     const productGrid = products.map((product, index) => (
@@ -42,7 +42,7 @@ const ProductGrid = ({ products }) => {
             </div>
           </div>
         </div>
-        { ((index+1) % 20 == 0) &&
+        { ((index+1) % LIMIT_PRODUCT_BEFORE_AD == 0) &&
           <div className="col-xs-12 col-md-12">
             <img class="ad" src={generateAd()} />
           </div>
