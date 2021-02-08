@@ -5,14 +5,18 @@ import { initialState, productReducer, DISPLAY_PRODUCT_SUCCESS, DISPLAY_PRODUCT_
          DISPLAY_PRODUCT_OTHER_PAGE_SUCCESS, DISPLAY_PRODUCT_OTHER_PAGE_FAILURE } from "../reducers/reducer";
 import { useEffect, useState, useReducer } from "react";
 import useInfiniteScroll from '../utilities/useInfiniteScroll';
+import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD } from '../utilities/GeneralUtils';
+
 
 function ProductPage() {
     const [products, dispatch] = useReducer(productReducer, initialState);
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreProduct);
-
+    const [page, setPage] = useState(1)
 
     const sorting = (e) => {
-        fetch("https://api.mocki.io/v1/a135f562")
+        // console.log("Sort type = " + e.target.value)
+        // fetch(ENDPOINT_SORT_PRODUCT + e.target.value)
+        fetch(ENDPOINT_SORT_PRODUCT)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -27,7 +31,8 @@ function ProductPage() {
     }
 
     useEffect(() => {
-        fetch("https://api.mocki.io/v1/a135f562")
+        // fetch(ENDPOINT_DISPLAY_PRODUCT + page)
+        fetch("http://localhost:3000/products")
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -43,9 +48,10 @@ function ProductPage() {
 
     function fetchMoreProduct() {
         setTimeout(() => {
-          console.log("fetch more product") 
+          setPage(page + 1)
           setIsFetching(false);
-          fetch("https://api.mocki.io/v1/a135f562")
+        //   fetch(ENDPOINT_DISPLAY_PRODUCT + page)
+          fetch(ENDPOINT_DISPLAY_PRODUCT)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
