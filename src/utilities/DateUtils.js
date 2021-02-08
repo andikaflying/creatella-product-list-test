@@ -8,17 +8,16 @@ export function getDisplayedDate(dateString) {
 
     const monthAt = getMonthNumber(month);
     var newDateString = year + '-' + monthAt + '-' + dateOfMonth + 'T' + time;
-    console.log("Date string = " + newDateString)
     var selectedDate = new Date(Date.parse(newDateString))
     var todayDate = new Date()
 
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const diffDays = Math.round(Math.abs((todayDate - selectedDate) / oneDay));
 
-    console.log("Diff days = " + diffDays)
+    // console.log("Diff days = " + diffDays)
 
     if (diffDays >= 7) {
-        return "Older than 1 week"
+        return dateOfMonth + " " + month + " " + year
     } else if ((diffDays < 7) && (diffDays >= 1)) {
         return diffDays + " days ago"
     } else {
