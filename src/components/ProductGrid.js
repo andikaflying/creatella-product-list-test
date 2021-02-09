@@ -42,7 +42,8 @@ const ProductGrid = ({ products }) => {
             </div>
           </div>
         </div>
-        { ((index+1) % LIMIT_PRODUCT_BEFORE_AD == 0) &&
+        { //Display ad after certain products
+          ((index+1) % LIMIT_PRODUCT_BEFORE_AD == 0) &&
           <div className="col-xs-12 col-md-12 center">
             <img class="ad" src={generateAd(index + 1)} />
           </div>

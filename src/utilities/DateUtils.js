@@ -1,5 +1,7 @@
 
+
 export function getDisplayedDate(dateString) {
+    //split date from server
     dateString = dateString.split(' ')
     const month = dateString[1];
     const dateOfMonth = dateString[2];
@@ -8,13 +10,11 @@ export function getDisplayedDate(dateString) {
 
     const monthAt = getMonthNumber(month);
     var newDateString = year + '-' + monthAt + '-' + dateOfMonth + 'T' + time;
-    var selectedDate = new Date(Date.parse(newDateString))
-    var todayDate = new Date()
+    var selectedDate = new Date(Date.parse(newDateString))  //get timemillis of selected date
+    var todayDate = new Date()  //get timemillis of current date
 
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const diffDays = Math.round(Math.abs((todayDate - selectedDate) / oneDay));
-
-    // console.log("Diff days = " + diffDays)
+    const diffDays = Math.round(Math.abs((todayDate - selectedDate) / oneDay)); //get different days
 
     if (diffDays >= 7) {
         return dateOfMonth + " " + month + " " + year

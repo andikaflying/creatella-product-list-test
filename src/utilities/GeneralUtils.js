@@ -7,7 +7,9 @@ export function generateAd(indexProduct) {
   let index;
   let indexAd = (indexProduct / 20) - 1;
 
+  //to check existed ad already in array or not
   if (adIndexList[indexAd] == null) {
+    //check random number is already in the list or not. if not, then out of looping
     while (!isDone) {
       index = Math.floor(Math.random()*1000);
       if (!adIndexList.includes(index)) {

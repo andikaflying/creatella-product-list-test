@@ -15,6 +15,7 @@ function ProductPage() {
     const [sortType, setSortType] = useState("");
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreProduct, page * LIMIT);
 
+    //call sorting API
     const sorting = (e) => {
         const type = e.target.value;
         setSortType(type);
@@ -33,6 +34,7 @@ function ProductPage() {
             }); 
     }
 
+    //first render, call displaying product endpoint in first page
     useEffect(() => {
         fetch(ENDPOINT_DISPLAY_PRODUCT + page)
             .then(response => {
@@ -48,6 +50,7 @@ function ProductPage() {
             }); 
     }, []);
 
+    //call display product for next page after scrolled at bottom
     async function fetchMoreProduct() {
         if (products.data.length < TOTAL_ALL_PRODUCTS) {
             await setTimeout(() => {
@@ -73,8 +76,6 @@ function ProductPage() {
 
     return(
         <div class="container">
-            {/* { console.log("Rendered Product size = " + products.data.length)}
-            { "Product size = " + products.data.length} */}
             <div class="select">
                 <select name="slct" id="slct" onChange={sorting} >
                     <option selected disabled>Sorted by .... </option>
