@@ -7,7 +7,7 @@ const ProductGrid = ({ products }) => {
       <div>
         <div className="col-xs-12 col-md-6">
           <div className="prod-info-main prod-wrap clearfix">
-          <div className="row">
+            <div className="row">
               <div className="col-md-5 col-sm-12 col-xs-12">
                 <div className="product-image">
                   <span className="img-responsive" style={{fontSize: product.size + 'px', textAlign: 'center'}}> {product.face} </span>
@@ -43,7 +43,7 @@ const ProductGrid = ({ products }) => {
           </div>
         </div>
         { ((index+1) % LIMIT_PRODUCT_BEFORE_AD == 0) &&
-          <div className="col-xs-12 col-md-12">
+          <div className="col-xs-12 col-md-12 center">
             <img class="ad" src={generateAd()} />
           </div>
         }

@@ -352,3 +352,7 @@ select {
 .select:hover::after {
   color: #f39c12;
 }
+
+.center {
+  text-align: center;
+}

@@ -83,8 +83,8 @@ function ProductPage() {
                 </select>
             </div>
             { (products != null) && <ProductGrid products={products.data} /> }
-            {(isFetching && (products.data.length < TOTAL_ALL_PRODUCTS)) && 'Loading...' }
-            { (products.data.length == TOTAL_ALL_PRODUCTS) && '~ end of catalogue ~' }
+            {(isFetching && (products.data.length < TOTAL_ALL_PRODUCTS)) && <h4 className="name center"> Loading... </h4> }
+            { (products.data.length == TOTAL_ALL_PRODUCTS) && <h4 className="name center">~ end of catalogue ~</h4> }
         </div>
     )
 };
