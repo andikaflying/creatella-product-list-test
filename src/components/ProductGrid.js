@@ -44,7 +44,7 @@ const ProductGrid = ({ products }) => {
         </div>
         { ((index+1) % LIMIT_PRODUCT_BEFORE_AD == 0) &&
           <div className="col-xs-12 col-md-12 center">
-            <img class="ad" src={generateAd()} />
+            <img class="ad" src={generateAd(index + 1)} />
           </div>
         }
       </div>

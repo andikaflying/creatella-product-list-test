@@ -12,12 +12,14 @@ import { ENDPOINT_DISPLAY_PRODUCT, ENDPOINT_SORT_PRODUCT,  ENDPOINT_DISPLAY_AD,
 function ProductPage() {
     const [products, dispatch] = useReducer(productReducer, initialState);
     const [page, setPage] = useState(1);
+    const [sortType, setSortType] = useState("");
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreProduct, page * LIMIT);
 
     const sorting = (e) => {
-        const sortType = e.target.value;
+        const type = e.target.value;
+        setSortType(type);
         const totalProduct = page * LIMIT;
-        fetch(ENDPOINT_SORT_PRODUCT + sortType + "&_limit=" + totalProduct)
+        fetch(ENDPOINT_SORT_PRODUCT + type + "&_limit=" + totalProduct)
             .then(response => {
                 if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -46,15 +48,12 @@ function ProductPage() {
             }); 
     }, []);
 
-    function fetchMoreProduct() {
-        console.log("Product length = " + products.data.length)
+    async function fetchMoreProduct() {
         if (products.data.length < TOTAL_ALL_PRODUCTS) {
-            setTimeout(() => {
+            await setTimeout(() => {
                 const nextPage = page + 1;
                 setPage(nextPage)
-                console.log("True or false : " + (products.data.length <= TOTAL_ALL_PRODUCTS));
-                console.log("Product size = " + products.data.length)
-                fetch(ENDPOINT_DISPLAY_PRODUCT + nextPage)
+                fetch(ENDPOINT_DISPLAY_PRODUCT + nextPage + "&_sort=" + sortType)
                   .then(response => {
                       if (!response.ok) throw Error(response.statusText);
                           return response.json();
@@ -74,6 +73,8 @@ function ProductPage() {
 
     return(
         <div class="container">
+            {/* { console.log("Rendered Product size = " + products.data.length)}
+            { "Product size = " + products.data.length} */}
             <div class="select">
                 <select name="slct" id="slct" onChange={sorting} >
                     <option selected disabled>Sorted by .... </option>
@@ -84,7 +85,7 @@ function ProductPage() {
             </div>
             { (products != null) && <ProductGrid products={products.data} /> }
             {(isFetching && (products.data.length < TOTAL_ALL_PRODUCTS)) && <h4 className="name center"> Loading... </h4> }
-            { (products.data.length == TOTAL_ALL_PRODUCTS) && <h4 className="name center">~ end of catalogue ~</h4> }
+            { (products.data.length >= TOTAL_ALL_PRODUCTS) && <h4 className="name center">~ end of catalogue ~</h4> }
         </div>
     )
 };

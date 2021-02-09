@@ -2,18 +2,23 @@ import { useState } from "react";
 
 const adIndexList = new Array();
 
-export function generateAd() {
+export function generateAd(indexProduct) {
   let isDone = false;
   let index;
+  let indexAd = (indexProduct / 20) - 1;
 
-  while (!isDone) {
+  if (adIndexList[indexAd] == null) {
+    while (!isDone) {
       index = Math.floor(Math.random()*1000);
       if (!adIndexList.includes(index)) {
           isDone = true;
       }
-  }
+    }
 
-  adIndexList.push(index)
+    adIndexList.push(index)
+  } else {
+    index = adIndexList[indexAd]
+  }
 
   return AD_IMAGE_URL + index;
 }
