@@ -6,9 +6,9 @@ Please read the instructions and FAQ below before beginning.
 
 ## How to run
 
-- Run the server in different folder. Run with `npm start` and make sure the localhost is `http://localhost:3000/`
-- After it's successfully running, run this project with `npm start`. Run this project in different `port`
-- Now, you can see the page. Please, contact me if you don't see a page
+- Run the server from template (server and this project are seperated folder). Run with `npm run start` and make sure the server runs in `http://localhost:3000/`
+- After it's successfully running, run this React JS project with `npm run start`. Run this project in different `port`
+- Now, you can see products in the page. Please, contact me if you don't see the products
 
 ## Features
 
